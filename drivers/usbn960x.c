@@ -10,7 +10,7 @@
 #include "board.h"
 
 #include <usb/usb.h>
-#include <usb/usb_function.h>
+#include <usb/usb_device.h>
 #include <usb/usb_request.h>
 
 #include <avr/interrupt.h>

@@ -9,7 +9,7 @@
 #define USBN960X_H_
 
 #include <usb/usb_descr.h>
-#include <usb/usb_function.h>
+#include <usb/usb_device.h>
 
 #include <stdint.h>
 

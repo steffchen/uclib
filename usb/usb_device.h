@@ -1,6 +1,6 @@
 
-#ifndef __usb_function_h__
-#define __usb_function_h__
+#ifndef __usb_device_h__
+#define __usb_device_h__
 
 #include "usb_descr.h"
 #include "usb_request.h"

@@ -2,7 +2,7 @@
 #include "usb_request.h"
 
 #include "usb_descr.h"
-#include "usb_function.h"
+#include "usb_device.h"
 
 #include "board.h"
 

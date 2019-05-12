@@ -5,7 +5,7 @@
  *      Author: steff
  */
 
-#include "usb_function.h"
+#include "usb_device.h"
 
 #include "usb.h"
 #include "usb_descr.h"
