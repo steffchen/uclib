@@ -281,6 +281,17 @@ void usbn960x_handler(void)
 	/* TODO: FRAME auswerten -> SOF */
 }
 
+static usbn960x_ep_t *alloc_ep(uint8_t addr, uint8_t size)
+{
+	usbn960x_ep_t *ep = &usbn960x->eps[usbn960x->ep_idx++];
+
+	ep->addr = addr;
+	/* TODO: hardware-limitierungen beruecksichtigen? */
+	ep->size = size;
+
+	return ep;
+}
+
 void usbn960x_init(void)
 {
 	uint8_t mcntrl0 = 3 << USBN960x_MCNTRL_INTOC_Pos | USBN960x_MCNTRL_VGE;
@@ -304,8 +315,8 @@ void usbn960x_init(void)
 	board_usbn960x_write(USBN960x_ALTMSK, 0xfd);
 //	usbn960x_write(USBN960x_NAKMSK, 0xff);
 
-	usbn960x->ep0_out = usbn960x_alloc_ep(0x00, 8);
-	usbn960x->ep0_in = usbn960x_alloc_ep(0x80, 8);
+	usbn960x->ep0_out = alloc_ep(0x00, 8);
+	usbn960x->ep0_in = alloc_ep(0x80, 8);
 
 	/* configure EP0, RX and TX */
 	usbn960x_setup_send(usbn960x->ep0_in, ep0_in_handler);
@@ -403,16 +414,9 @@ int usbn960x_set_address(uint16_t addr)
 	return 0;
 }
 
-
-void *usbn960x_alloc_ep(uint8_t iep, uint16_t ep_size)
+void *usbn960x_alloc_ep(usb_endpoint_descriptor_t *ep_descr)
 {
-	usbn960x_ep_t *ep = &usbn960x->eps[usbn960x->ep_idx++];
-
-	ep->addr = iep;
-	/* TODO: hardware-limitierungen beruecksichtigen? */
-	ep->size = ep_size;
-
-	return (void *)ep;
+	return (void *)alloc_ep(ep_descr->bEndpointAddress, ep_descr->wMaxPacketSize);
 }
 
 void usbn960x_enable_ep(void *_ep)

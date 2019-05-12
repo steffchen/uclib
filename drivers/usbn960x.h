@@ -8,6 +8,7 @@
 #ifndef USBN960X_H_
 #define USBN960X_H_
 
+#include <usb/usb_descr.h>
 #include <usb/usb_function.h>
 
 #include <stdint.h>
@@ -237,7 +238,7 @@ void usbn960x_send_ack(void *ep);
 
 int usbn960x_set_address(uint16_t addr);
 
-void *usbn960x_alloc_ep(uint8_t iep, uint16_t ep_size);
+void *usbn960x_alloc_ep(usb_endpoint_descriptor_t *ep_descr);
 void usbn960x_enable_ep(void *ep);
 void usbn960x_stall_ep(void *ep);
 
