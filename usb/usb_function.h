@@ -18,7 +18,7 @@ typedef struct _usb_interface_t
 	usb_request_hdlrs_t request_hdlrs;
 } usb_interface_t;
 
-typedef struct _usb_function_t
+typedef struct _usb_device_t
 {
 	usb_configuration_descriptor_t *conf_desc;
 	const usb_device_descriptor_t *device_desc;
@@ -27,7 +27,7 @@ typedef struct _usb_function_t
 	const usb_string_descriptor_t **string_descs;
 
 	const usb_interface_t * const *interfaces;
-} usb_function_t;
+} usb_device_t;
 
 usb_configuration_descriptor_t *usb_get_config_descr(void);
 const usb_device_descriptor_t *usb_get_device_descr(void);
@@ -35,6 +35,6 @@ const usb_string_descriptor_t *usb_get_string(uint8_t index);
 const usb_interface_t *usb_get_interface(unsigned int n);
 int usb_set_configuration(uint8_t idx);
 
-void usb_function_init(const usb_function_t *function);
+void usb_device_init(const usb_device_t *device);
 
 #endif
