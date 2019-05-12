@@ -35,32 +35,40 @@ const usb_string_descriptor_t *usb_get_string(uint8_t index)
 
 const usb_interface_t *usb_get_interface(unsigned int n)
 {
-	const usb_interface_t * const *interface = &usb_device->interfaces[0];
-	while (n-- > 0 && *interface != NULL)
-		interface++;
-	return *interface;
+	const usb_function_t *const *func;
+
+	for (func = &usb_device->functions[0]; *func != NULL; func++) {
+		const usb_interface_t *const *iface;
+
+		for (iface = &(*func)->interfaces[0]; *iface != NULL; iface++) {
+
+			/* return n'th interface */
+			if (n-- == 0)
+				return *iface;
+		}
+	}
+
+	return NULL;
 }
 
 int usb_set_configuration(uint8_t idx)
 {
-	const usb_interface_t *interface;
-	int i = 0;
+	const usb_function_t *const *func;
 
-	while ((interface = usb_get_interface(i++)) != NULL)
-		if (interface->configure != NULL)
-			interface->configure();
+	for (func = &usb_device->functions[0]; *func != NULL; func++)
+		if ((*func)->configure != NULL)
+			(*func)->configure();
 
 	return 0;
 }
 
 void usb_device_init(const usb_device_t *device)
 {
-	const usb_interface_t *interface;
-	int i = 0;
+	const usb_function_t *const *func;
 
 	usb_device = device;
 
-	while ((interface = usb_get_interface(i++)) != NULL)
-		if (interface->init != NULL)
-			interface->init();
+	for (func = &usb_device->functions[0]; *func != NULL; func++)
+		if ((*func)->init != NULL)
+			(*func)->init();
 }
