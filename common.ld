@@ -12,6 +12,7 @@ SECTIONS
 {
 	.text : {
 		*(.vectors)
+		*(.init0)
 		*(.init2)
 		*(.init4)
 		*(.init9)
